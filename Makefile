@@ -7,8 +7,11 @@ OUT=StrangeEngine
 SRC=src
 BIN=bin
 
-build:
+strange-engine: make-bin
 	$(CC) $(CFLAGS) $(SRC)/* -o $(BIN)/$(OUT) $(INCL) $(LIBS)
+
+make-bin:
+	mkdir -p $(BIN)
 
 clear:
 	rm -rf $(BIN)
