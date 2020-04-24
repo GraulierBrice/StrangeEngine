@@ -6,6 +6,8 @@
 
 int addr_from_scancode(SDL_Scancode scancode);
 
+void update_input();
+
 void inputDown(SDL_Scancode scancode);
 void inputUp(SDL_Scancode scancode);
 void inputMouseDown(int btn);

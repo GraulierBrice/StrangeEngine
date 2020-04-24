@@ -18,6 +18,13 @@ int addr_from_scancode(SDL_Scancode scancode) {
     else return -1;
 }
 
+void update_input() {
+    int x, y, w, h;
+    SDL_GetMouseState(&x, &y);
+    SDL_GetWindowSize(window, &w, &h);
+    inputMouseMotion(x*WIDTH/w, y*HEIGHT/h);
+}
+
 void inputDown(SDL_Scancode scancode) {
     memwrite(addr_from_scancode(scancode), 1);
 }

@@ -6,7 +6,6 @@ int main(int argc, char* argv[]) {
     }
 
     lua_State* L = luaL_newstate();
-    luaL_openlibs(L);
     luaL_dofile(L, argv[1]);
     
     pushAllLuaFunctions(L);
@@ -21,7 +20,7 @@ int main(int argc, char* argv[]) {
     while(running) {
         float frame_start = time();
         handleEvents();
-
+        update_input();
         call_lua_function(L, "update");
         
         clear_screen();
