@@ -13,7 +13,6 @@ void start_system() {
     memory_init();
     init_screen();
     TTF_Init();
-    load_font("PICO-8 mono.ttf");
     gettimeofday(&startTime, NULL);
     running = 1;
 }

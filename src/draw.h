@@ -9,7 +9,7 @@
 
 TTF_Font* font;
 
-void load_font(const char* file);
+void load_font(const char* file, int size);
 void unload_font();
 
 void pixel(int x, int y, int c);
@@ -24,6 +24,7 @@ int l_circle(lua_State* L);
 int l_rectangle(lua_State* L);
 
 int l_print_text(lua_State* L);
+int l_load_font(lua_State* L);
 
 void draw_pushLuaFunctions(lua_State* L);
 

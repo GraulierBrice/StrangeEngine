@@ -1,19 +1,32 @@
 #include "common.h"
+#include <libgen.h>
 
 int main(int argc, char* argv[]) {
     if (argc == 0) {
         exit(0);
     }
 
-    printf("%s\n", argv[1]);
+    start_system();
+
+
+    char* ts1 = strdup(argv[1]);
+    char* ts2 = strdup(argv[1]);
+    char* dir = dirname(ts1);
+    char* file = basename(ts2);
+
+    if (chdir(dir)) {
+        perror(argv[1]);
+        stop_system();
+        exit(1);
+    }
+    
 
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
-    luaL_dofile(L, argv[1]);
-    
+    luaL_dofile(L, file);
     pushAllLuaFunctions(L);
     
-    start_system();
+    load_font("PICO-8 mono.ttf", 4);
     
     call_lua_function(L, "start");
 
@@ -25,7 +38,6 @@ int main(int argc, char* argv[]) {
         call_lua_function(L, "update");
         
         clear_screen();
-        call_lua_function(L, "draw");
         draw_screen();
 
         float frame_end = time();

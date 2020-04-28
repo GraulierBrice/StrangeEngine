@@ -55,7 +55,7 @@ int serverReceive(int addr, int length) {
         fd.events = POLLIN;
         fd.fd = server->client_sock;
         if (poll(&fd, 1, 1)>0) {
-	        if(recv(server->client_sock, memory + addr, length, 0) < length)
+	        if(recv(server->client_sock, memory + addr, length, 0) < 0)
 	        {
                 closeServer();
     		    return -1;
@@ -113,7 +113,7 @@ int clientReceive(int addr, int length) {
         fd.events = POLLIN;
         fd.fd = client->socket_desc;
         if (poll(&fd, 1, 1) > 0) {
-            if(recv(client->socket_desc, memory + addr, length , 0) < length)
+            if(recv(client->socket_desc, memory + addr, length , 0) < 0)
             {
                 closeClient();
                 return -1;
@@ -238,7 +238,6 @@ int l_receiveData(lua_State* L) {
     lua_Integer addr = (lua_Integer) luaL_checknumber(L, 1);
     lua_Integer length = (lua_Integer) luaL_checknumber(L, 2);
     int result = receiveData(addr, length);
-    if (result) printf("%i\n", result);
     lua_pushinteger(L, result);
     return 1;
 }

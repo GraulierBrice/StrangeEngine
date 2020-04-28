@@ -3,12 +3,15 @@
 
 #define PI 3.14159265
 
-void load_font(const char* name) {
-    font = TTF_OpenFont(name, 4);
+void load_font(const char* name, int size) {
+    font = TTF_OpenFont(name, size);
 }
 
 void unload_font() {
-    TTF_CloseFont(font);
+    if (font != NULL) {
+        TTF_CloseFont(font);
+        font = NULL;
+    }
 }
 
 void pixel(int x, int y, int c) {
@@ -37,19 +40,28 @@ void rectangle(int x0, int y0, int x1, int y1, int c) {
 }
 
 void print_text(const char* text, int x, int y, int c) {
-    SDL_Color fg; fg.r=0xff; fg.g=0xff; fg.b=0xff; fg.a=0xff;
-    SDL_Color bg; bg.r=0x00; bg.g=0x00; bg.b=0x00; bg.a=0x00;
-    SDL_Surface* surface = TTF_RenderUTF8(font, text, fg, bg);
-    int size = surface->format->BytesPerPixel;
-    SDL_Color* color;
-    for(int px=0; px<surface->w; px++) {
-        for(int py=0; py<surface->h; py++) {
-            Uint8* pix = (Uint8*) surface->pixels + py * surface->pitch + px * size;
-            color = surface->format->palette->colors + *pix;
-            if (color->r) pixel(x+px, y-py, c);
+    if (font != NULL) {
+        SDL_Color fg; fg.r=0xff; fg.g=0xff; fg.b=0xff; fg.a=0xff;
+        SDL_Color bg; bg.r=0x00; bg.g=0x00; bg.b=0x00; bg.a=0x00;
+        SDL_Surface* surface = TTF_RenderUTF8(font, text, fg, bg);
+        int size = surface->format->BytesPerPixel;
+        SDL_Color* color;
+        for(int px=0; px<surface->w; px++) {
+            for(int py=0; py<surface->h; py++) {
+                Uint8* pix = (Uint8*) surface->pixels + py * surface->pitch + px * size;
+                color = surface->format->palette->colors + *pix;
+                if (color->r) pixel(x+px, y-py, c);
+            }
         }
+        SDL_FreeSurface(surface);
     }
-    SDL_FreeSurface(surface);
+}
+
+int l_load_font(lua_State* L) {
+    const char* text = luaL_checkstring(L, 1);
+    lua_Integer size = (lua_Integer) luaL_checknumber(L, 2);
+    load_font(text, size);
+    return 0;
 }
 
 int l_pixel(lua_State* L) {
@@ -99,4 +111,5 @@ void draw_pushLuaFunctions(lua_State* L) {
     define_lua_function(L, "circle", l_circle);
     define_lua_function(L, "rectangle", l_rectangle);
     define_lua_function(L, "print", l_print_text);
+    define_lua_function(L, "loadFont", l_load_font);
 }
