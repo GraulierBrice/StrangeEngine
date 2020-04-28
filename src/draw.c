@@ -13,10 +13,12 @@ void unload_font() {
 
 void pixel(int x, int y, int c) {
     int addr = screen_to_addr(x, y);
-    memwrite(addr,   r(c));
-    memwrite(addr+1, g(c));
-    memwrite(addr+2, b(c));
-    memwrite(addr+3, a(c));
+    if (0 <= x && x < WIDTH && 0 <= y && y < HEIGHT) {
+        memwrite(addr,   r(c));
+        memwrite(addr+1, g(c));
+        memwrite(addr+2, b(c));
+        memwrite(addr+3, a(c));
+    }
 }
 
 void circle(int x, int y, int r, int c) {
@@ -38,7 +40,6 @@ void print_text(const char* text, int x, int y, int c) {
     SDL_Color fg; fg.r=0xff; fg.g=0xff; fg.b=0xff; fg.a=0xff;
     SDL_Color bg; bg.r=0x00; bg.g=0x00; bg.b=0x00; bg.a=0x00;
     SDL_Surface* surface = TTF_RenderUTF8(font, text, fg, bg);
-    SDL_UnlockSurface(surface);
     int size = surface->format->BytesPerPixel;
     SDL_Color* color;
     for(int px=0; px<surface->w; px++) {
@@ -48,7 +49,7 @@ void print_text(const char* text, int x, int y, int c) {
             if (color->r) pixel(x+px, y-py, c);
         }
     }
-    SDL_LockSurface(surface);
+    SDL_FreeSurface(surface);
 }
 
 int l_pixel(lua_State* L) {

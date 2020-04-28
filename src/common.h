@@ -12,6 +12,8 @@
 #include "input.h"
 #include "events.h"
 #include "draw.h"
+#include "storage.h"
+#include "network.h"
 
 
 void define_lua_function(lua_State* L, char* name, void* function);

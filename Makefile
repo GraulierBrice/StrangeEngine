@@ -11,7 +11,7 @@ strange-engine: make-bin
 	$(CC) $(CFLAGS) $(SRC)/* -o $(BIN)/$(OUT) $(INCL) $(LIBS)
 
 debug: make-bin
-	$(CC) -g $(CFLAGS) $(SRC)/* -o $(BIN)/$(OUT) $(INCL) $(LIBS)
+	$(CC) -g $(CFLAGS) $(SRC)/* -o $(BIN)/$(OUT)-debug $(INCL) $(LIBS)
 
 make-bin:
 	mkdir -p $(BIN)

@@ -17,4 +17,6 @@ void pushAllLuaFunctions(lua_State* L) {
     system_pushLuaFunctions(L);
     draw_pushLuaFunctions(L);
     input_pushLuaFunctions(L);
+    storage_pushLuaFunctions(L);
+    network_pushLuaFunctions(L);
 }

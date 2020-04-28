@@ -7,7 +7,7 @@ void init_screen() {
         512, 512,
         SDL_WINDOW_RESIZABLE
     );
-    renderer = SDL_CreateRenderer(window, -1, 0);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
     SDL_RenderSetLogicalSize(renderer, WIDTH, HEIGHT);
     SDL_ShowCursor(0);
     SDL_ShowWindow(window);

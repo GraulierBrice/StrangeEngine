@@ -25,9 +25,11 @@ void memwrite(int addr, char value) {
 }
 
 void memfill(int addr, int length, char value) {
-    for (int i = addr; i < addr + length; i++) {
-        memwrite(i, value);
-    }
+    memset(memory+addr, value, length);
+}
+
+void memcopy(int src, int dst, int length) {
+    memcpy(memory+dst, memory+src, length);
 }
 
 int l_memread(lua_State* L) {
@@ -51,8 +53,17 @@ int l_memfill(lua_State* L) {
     return 0;
 }
 
+int l_memcopy(lua_State* L) {
+    lua_Integer src = (lua_Integer) luaL_checknumber(L, 1);
+    lua_Integer dst = (lua_Integer) luaL_checknumber(L, 2);
+    lua_Integer length = (lua_Integer) luaL_checknumber(L, 3);
+    memcopy(src, dst, length);
+    return 0;
+}
+
 void memory_pushLuaFunctions(lua_State* L) {
     define_lua_function(L, "memread", l_memread);
     define_lua_function(L, "memwrite", l_memwrite);
     define_lua_function(L, "memfill", l_memfill);
+    define_lua_function(L, "memcopy", l_memcopy);
 }

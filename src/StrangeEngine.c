@@ -5,12 +5,13 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
+    printf("%s\n", argv[1]);
+
     lua_State* L = luaL_newstate();
+    luaL_openlibs(L);
     luaL_dofile(L, argv[1]);
     
     pushAllLuaFunctions(L);
-
-
     
     start_system();
     
@@ -31,6 +32,8 @@ int main(int argc, char* argv[]) {
         fps = 1/(frame_end - frame_start);
     }
     
+    call_lua_function(L, "finish");
+
     stop_system();
     lua_close(L);
     
