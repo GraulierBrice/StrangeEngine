@@ -11,6 +11,10 @@ void memory_clear() {
     free(memory);
 }
 
+int byte(int n){
+    return n&0xff;
+}
+
 char memread(int addr) {
     if (0 <= addr && addr < MEM_SIZE) {
         return memory[addr];

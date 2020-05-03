@@ -57,6 +57,15 @@ void print_text(const char* text, int x, int y, int c) {
     }
 }
 
+void sprite(int addr, int x, int y){
+    for (int i = 0; i < 8; i++){
+        for (int j = 0; j < 8; j++){
+            int c = byte(memread(addr+4*(j+8*i)))*0x1000000+byte(memread(addr+1+4*(j+8*i)))*0x10000+byte(memread(addr+2+4*(j+8*i)))*0x100+byte(memread(addr+3+4*(j+8*i)));
+            pixel(x+j,y-i,c);
+        }    
+    }
+}
+
 int l_load_font(lua_State* L) {
     const char* text = luaL_checkstring(L, 1);
     lua_Integer size = (lua_Integer) luaL_checknumber(L, 2);
@@ -106,10 +115,22 @@ int l_print_text(lua_State* L) {
     return 0;
 }
 
+int l_sprite(lua_State* L) {
+    lua_Integer addr = (lua_Integer) luaL_checknumber(L, 1);
+    lua_Integer x = (lua_Integer) luaL_checknumber(L, 2);
+    lua_Integer y = (lua_Integer) luaL_checknumber(L, 3);
+
+    sprite(addr, x, y);
+
+    return 0;
+}
+
+
 void draw_pushLuaFunctions(lua_State* L) {
     define_lua_function(L, "pixel", l_pixel);
     define_lua_function(L, "circle", l_circle);
     define_lua_function(L, "rectangle", l_rectangle);
     define_lua_function(L, "print", l_print_text);
     define_lua_function(L, "loadFont", l_load_font);
+    define_lua_function(L, "sprite", l_sprite);
 }

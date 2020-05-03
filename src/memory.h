@@ -9,6 +9,7 @@ char* memory;
 
 void memory_init();
 void memory_clear();
+int byte(int n);
 
 char memread(int addr);
 void memwrite(int addr, char value);
