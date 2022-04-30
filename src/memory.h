@@ -3,8 +3,6 @@
 
 #include "common.h"
 
-char* memory;
-
 // internal
 
 void memory_init();
@@ -15,6 +13,8 @@ char memread(int addr);
 void memwrite(int addr, char value);
 void memfill(int addr, int length, char value);
 void memcopy(int src, int dst, int length);
+long memory_addr();
+
 // lua
 
 int l_memread(lua_State* L);

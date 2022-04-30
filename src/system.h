@@ -2,11 +2,13 @@
 #define _SE_SYSTEM_H_
 
 #include "common.h"
+#include "memory.h"
+#include "rendering.h"
+#include "draw.h"
+#include <SDL2/SDL_ttf.h>
+#include <stdbool.h>
 
 // internal
-int running;
-struct timeval startTime;
-float fps;
 
 float time();
 void start_system();
@@ -14,6 +16,8 @@ void stop_system();
 void quit();
 
 float framerate();
+void set_fps(float f);
+bool is_running();
 
 // lua
 

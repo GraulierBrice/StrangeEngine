@@ -1,4 +1,8 @@
 #include "network.h"
+#include "memory.h"
+
+ServerData* server;
+ClientData* client;
 
 int createHost(void* data) {
     ConnectionInfo* infos = (ConnectionInfo*) data;
@@ -49,13 +53,13 @@ int serverWaiting() {
     return 0;
 }
 
-int serverReceive(int addr, int length) {
+int serverReceive(long addr, int length) {
     if (isHost()) {
         struct pollfd fd;
         fd.events = POLLIN;
         fd.fd = server->client_sock;
         if (poll(&fd, 1, 1)>0) {
-	        if(recv(server->client_sock, memory + addr, length, 0) < 0)
+	        if(recv(server->client_sock, (void *) (memory_addr() + addr), length, 0) < 0)
 	        {
                 closeServer();
     		    return -1;
@@ -66,9 +70,9 @@ int serverReceive(int addr, int length) {
     return 0;
 }
 
-int serverSend(int addr, int length) {
+int serverSend(long addr, int length) {
     if (isHost()) {
-	    if (send(server->client_sock, memory + addr, length, 0) < 0) {
+	    if (send(server->client_sock, (void*) (memory_addr() + addr), length, 0) < 0) {
             closeServer();
             return -1;
         }
@@ -107,13 +111,13 @@ int createClient(void* data) {
     return 0;
 }
 
-int clientReceive(int addr, int length) {
+int clientReceive(long addr, int length) {
     if (isClient()) {
         struct pollfd fd;
         fd.events = POLLIN;
         fd.fd = client->socket_desc;
         if (poll(&fd, 1, 1) > 0) {
-            if(recv(client->socket_desc, memory + addr, length , 0) < 0)
+            if(recv(client->socket_desc, (void*) (memory_addr() + addr), length , 0) < 0)
             {
                 closeClient();
                 return -1;
@@ -124,9 +128,9 @@ int clientReceive(int addr, int length) {
     return 0;
 }
 
-int clientSend(int addr, int length) {
+int clientSend(long addr, int length) {
     if (isClient()) {
-        if(send(client->socket_desc, memory + addr, length, 0) < 0)
+        if(send(client->socket_desc, (void*) (memory_addr() + addr), length, 0) < 0)
         {
             closeClient();
             return -1;
@@ -159,7 +163,7 @@ int closeConnection() {
     return 0;
 }
 
-int sendData(int addr, int length) {
+int sendData(long addr, int length) {
     if (isHost()) {
         return serverSend(addr, length);
     } else if(isClient()) {
@@ -168,7 +172,7 @@ int sendData(int addr, int length) {
     return 0;
 }
 
-int receiveData(int addr, int length) {
+int receiveData(long addr, int length) {
     if (isConnected()) {
         if (server != NULL) {
             return serverReceive(addr, length);

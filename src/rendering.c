@@ -1,4 +1,8 @@
 #include "rendering.h"
+#include <SDL2/SDL_video.h>
+
+SDL_Window* window;
+SDL_Renderer* renderer;
 
 void init_screen() {
     window = SDL_CreateWindow(
@@ -31,6 +35,10 @@ void draw_screen() {
         SDL_RenderDrawPoint(renderer, x, HEIGHT - y-1);
     }
     SDL_RenderPresent(renderer);
+}
+
+SDL_Window* get_window() {
+    return window;
 }
 
 int screen_to_addr(int x, int y) {

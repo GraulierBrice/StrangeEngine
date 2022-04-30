@@ -10,13 +10,3 @@ void call_lua_function(lua_State* L, char* name) {
         lua_call(L, 0, 0);
     }
 }
-
-void pushAllLuaFunctions(lua_State* L) {
-    memory_pushLuaFunctions(L);
-    rendering_pushLuaFunctions(L);
-    system_pushLuaFunctions(L);
-    draw_pushLuaFunctions(L);
-    input_pushLuaFunctions(L);
-    storage_pushLuaFunctions(L);
-    network_pushLuaFunctions(L);
-}

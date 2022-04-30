@@ -1,5 +1,5 @@
 #include "storage.h"
-#include <stdio.h>
+#include "memory.h"
 
 void loadFile(const char* name, int addr) {
     FILE* file = fopen(name, "r");

@@ -3,6 +3,7 @@
 
 #include "common.h"
 
+#include <SDL2/SDL_thread.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -31,24 +32,21 @@ typedef struct ConnectionInfo {
     int port;
 } ConnectionInfo;
 
-ServerData* server;
-ClientData* client;
-
 int createHost(void* data);
 int hostWaiting();
-int serverReceive(int addr, int length);
-int serverSend(int addr, int length);
+int serverReceive(long addr, int length);
+int serverSend(long addr, int length);
 
 int createClient(void* data);
-int clientReceive(int addr, int length);
-int clientSend(int addr, int length);
+int clientReceive(long addr, int length);
+int clientSend(long addr, int length);
 
 int closeServer();
 int closeClient();
 int closeConnection();
 
-int sendData(int addr, int length);
-int receiveData(int addr, int length);
+int sendData(long addr, int length);
+int receiveData(long addr, int length);
 
 int isHost();
 int isClient();

@@ -1,7 +1,11 @@
 #include "draw.h"
+#include "memory.h"
+#include "rendering.h"
 #include <math.h>
 
 #define PI 3.14159265
+
+TTF_Font* font;
 
 void load_font(const char* name, int size) {
     font = TTF_OpenFont(name, size);

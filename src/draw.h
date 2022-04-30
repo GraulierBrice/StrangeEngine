@@ -7,8 +7,6 @@
 
 // internal
 
-TTF_Font* font;
-
 void load_font(const char* file, int size);
 void unload_font();
 

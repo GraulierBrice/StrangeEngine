@@ -1,7 +1,10 @@
 #include "memory.h"
 #include <stdlib.h>
+#include <string.h>
 
 #define MEM_SIZE 0x100000
+
+char* memory;
 
 void memory_init() {
     memory = (char*) malloc(sizeof(char) * MEM_SIZE);
@@ -9,6 +12,10 @@ void memory_init() {
 
 void memory_clear() {
     free(memory);
+}
+
+long memory_addr() {
+    return (long) memory;
 }
 
 int byte(int n){

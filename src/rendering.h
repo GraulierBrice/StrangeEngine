@@ -14,13 +14,12 @@
 
 // internal
 
-SDL_Window* window;
-SDL_Renderer* renderer;
-
 void init_screen();
 void close_screen();
 void clear_screen();
 void draw_screen();
+
+SDL_Window* get_window();
 
 void clear();
 

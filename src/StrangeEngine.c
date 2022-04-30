@@ -1,6 +1,25 @@
 #include "common.h"
 #include <libgen.h>
 
+#include "draw.h"
+#include "events.h"
+#include "input.h"
+#include "memory.h"
+#include "network.h"
+#include "rendering.h"
+#include "storage.h"
+#include "system.h"
+
+void pushAllLuaFunctions(lua_State* L) {
+    memory_pushLuaFunctions(L);
+    rendering_pushLuaFunctions(L);
+    system_pushLuaFunctions(L);
+    draw_pushLuaFunctions(L);
+    input_pushLuaFunctions(L);
+    storage_pushLuaFunctions(L);
+    network_pushLuaFunctions(L);
+}
+
 int main(int argc, char* argv[]) {
     if (argc == 0) {
         exit(0);
@@ -31,7 +50,7 @@ int main(int argc, char* argv[]) {
     call_lua_function(L, "start");
 
 
-    while(running) {
+    while(is_running()) {
         float frame_start = time();
         handleEvents();
         update_input();
@@ -41,7 +60,7 @@ int main(int argc, char* argv[]) {
         draw_screen();
 
         float frame_end = time();
-        fps = 1/(frame_end - frame_start);
+        set_fps(1/(frame_end - frame_start));
     }
     
     call_lua_function(L, "finish");

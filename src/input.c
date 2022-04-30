@@ -1,4 +1,5 @@
 #include "input.h"
+#include "rendering.h"
 
 #define INPUT_ADDR 0x10000
 #define MOUSE_ADDR 0x10000
@@ -21,7 +22,7 @@ void update_input_memory(int id, char input) {
 void update_mouse() {
     int x, y, w, h, btn;
     btn = SDL_GetMouseState(&x, &y);
-    SDL_GetWindowSize(window, &w, &h);
+    SDL_GetWindowSize(get_window(), &w, &h);
     memwrite(MOUSE_ADDR, x*WIDTH/w);
     memwrite(MOUSE_ADDR+1, HEIGHT - y*HEIGHT/h);
     update_input_memory(0, (btn & 1) > 0);

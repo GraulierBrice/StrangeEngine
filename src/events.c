@@ -1,4 +1,6 @@
 #include "events.h"
+#include "system.h"
+
 
 void handleEvents() {
     SDL_Event events[10];
